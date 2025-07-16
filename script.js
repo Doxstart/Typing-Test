@@ -1,11 +1,14 @@
-const words = ["azúcar", "gusto", "entorno", "coca", "solar", "saludo", "desprecio", "nuevo", 
+const words = ["cereza", "gusto", "entorno", "coca", "solar", "saludo", "desprecio", "nuevo", 
     "cuentas", "relato", "lado", "helado", "saber", "primario", "secundario", "terciario", "novedoso", 
     "implicar", "practicar", "suave", "hermoso", "generoso", "abdicar", "aburrido", "dormir", "mirar", 
     "clasificar", "equipo", "ambiente", "estudio", "paralelo", "horizonte", "reflexionar", "neuronal", 
-    "estaciones", "calendario", "medicina", "hospital", "dramaturgo", "exponer", "televisión", "brujería", 
-    "dispositivo", "tecnología", "práctica", "abecedario", "alfombra", "lujo", "comodidad", "sabiduría", 
-    "extraterrestre", "nominal", "inmenso", "desolador", "fastidioso", "experiencia", "melodía", "canto", 
-    "baile", "secuencia", "pasos", "completo", "migajas", "alimentos", "flores", "bebida"
+    "estaciones", "calendario", "medicina", "hospital", "dramaturgo", "exponer", "cambio", "bruja", 
+    "dispositivo", "astral", "abismal", "abecedario", "alfombra", "lujo", "comodidad", "despertar", 
+    "extraterrestre", "nominal", "inmenso", "desolador", "fastidioso", "experiencia", "destrozar", "canto", 
+    "baile", "secuencia", "pasos", "completo", "migajas", "alimentos", "flores", "bebida", "maestro", 
+    "destino", "simple", "final", "perezoso", "cotidiano", "establecer", "simplificar", "estrellas", "borracho",
+    "adjuntar", "escanear", "partido", "comunicar", "probar", "cretino", "mantequilla", "salado", "creativo", 
+    "vestido", "discutir", "dialogar", "enfrentar", "pelear", "admirar", "entregado", "delicioso"
 ];
 
 const textContainer = document.getElementById('text-container');
@@ -48,8 +51,6 @@ document.addEventListener('keydown', (e) => {
         currentCharIndex ++;
     }
 
-    console.log('e.key', e.key, 'totalTyped', totalTyped, 'currentCharIndex', currentCharIndex);
-
     const textArray = longText.split('');
     textContainer.innerText = '';
 
@@ -69,5 +70,11 @@ document.addEventListener('keydown', (e) => {
 
         span.textContent = textArray[i];
         textContainer.appendChild(span);
+    }
+
+    //Scroll the container after 20 characters
+    if (totalTyped.length >= 20) {
+        const scrollAmount = (totalTyped.length - 20) * 14;
+        textContainer.scrollLeft = scrollAmount;
     }
 });
