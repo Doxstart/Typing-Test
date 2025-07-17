@@ -20,12 +20,9 @@ let totalTyped = '';
 let currentCharIndex = 0;
 let errors = 0;
 let longText = generateLongText();
-let timeLeft = 6;
+let timeLeft = 60;
 let timerInterval;
 let typingStarted = false;
-
-
-textContainer.textContent = longText;
 
 //Shuffle the words Array
 function shuffleArray(array) {
@@ -60,7 +57,7 @@ function startTimer() {
 //End the test and display the final score
 function endTest() {
     timerElement.textContent = `El tiempo ha terminado!`;
-    finalScoreElement.textContent = `Conteo final: ${calculateWPM()}`;
+    finalScoreElement.textContent = `Palabras por minuto: ${calculateWPM()}`;
     textContainer.style.display = 'none';
     tryAgainButton.style.display = 'block';
 }
@@ -69,11 +66,10 @@ function endTest() {
 function calculateWPM() {
     const wordsTyped = totalTyped.trim().split(/\s+/).length;
     console.log(wordsTyped, totalTyped.trim().split(/\s+/));
-    const baseWPM = Math.round((wordsTyped / 6) * 60);
+    const baseWPM = Math.round((wordsTyped / 60) * 60);
     const adjustedWPM = Math.max(baseWPM - errors, 0);
     return adjustedWPM;
 }
-
 
 //Handle typing over the displayed text and scrolling
 document.addEventListener('keydown', (e) => {
@@ -116,3 +112,46 @@ document.addEventListener('keydown', (e) => {
         textContainer.scrollLeft = scrollAmount;
     }
 });
+
+//Reset the test
+function resetTest() {
+    clearInterval(timerInterval);
+    timeLeft = 60;
+    timerElement.textContent = `Tiempo restante: ${timeLeft}s`;
+    finalScoreElement.textContent = '';
+    textContainer.style.display = 'block';
+    tryAgainButton.style.display = 'none';
+    totalTyped = '';
+    typingStarted = false;
+    currentCharIndex = 0;
+    errors = 0;
+    textContainer.scrollLeft = 0;
+    longText = generateLongText();
+    init();
+}
+
+//Initialize the test
+function init() {
+    if (isMobileDevice()) {
+        showMobileMessage();
+    } else {
+        textContainer.innerText = longText;
+        timerElement.textContent = `Tiempo restante: ${timeLeft}s`;
+    }
+}
+
+//Try Again button listener
+tryAgainButton.addEventListener('click', resetTest);
+
+//Detect if the device is mobile
+function isMobileDevice() {
+    return /Mobi|Android/i.test(navigator.userAgent) || window.innerWidth < 800;
+}
+
+//Show message for mobile users
+function showMobileMessage() {
+    textContainer.textContent = 'Esta prueba de tipeado solo funciona para ordenadores';
+}
+
+//Startup
+init();
